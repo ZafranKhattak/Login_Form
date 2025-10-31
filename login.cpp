@@ -9,10 +9,12 @@ int main() {
     string password[10] ;
     int save = 0 ;
     int choice ;
+    int attempt = 0;
+
     
     while (true) {
         
-        cout <<"Enter your Choice\n"
+        cout <<"\nEnter your Choice\n"
             << "1: SignUp\n"
             <<"2: SignIn\n"
             <<"3: End" << endl;
@@ -35,13 +37,20 @@ int main() {
             cin >>pass;
             bool logedIn = false;
             
+            // int attempt = 0; // wrong place
             for (int i=0 ; i<save; i++) {
+            attempt++ ;
+
                 if (username[i]==user && password[i]==pass) {
                     cout <<"Login Successfully" << endl;
                     break;
                 }
-            cout <<"Invalid" <<endl;
-            break ;
+                else 
+            cout <<"Invalid username or password" <<endl;
+            if (attempt == 3) {
+                cout <<"Account blocked" ;
+                break; 
+            }
             }
         }
         else if (choice == 3) {
