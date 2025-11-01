@@ -1,62 +1,73 @@
-// using online compiler programiz
 #include <iostream>
 #include <string>
 using namespace std;
 
 int main() {
-    
-    string username[10] ;
-    string password[10] ;
-    int save = 0 ;
-    int choice ;
-    int attempt = 0;
+    string username[10];
+    string password[10];
+    string currentUser ;
+    int save = 0;
+    int choice;
 
-    
     while (true) {
-        
-        cout <<"\nEnter your Choice\n"
-            << "1: SignUp\n"
-            <<"2: SignIn\n"
-            <<"3: End" << endl;
-        cin >> choice ;
-        
+        cout << "\nEnter your Choice\n"
+             << "1: SignUp\n"
+             << "2: SignIn\n"
+             << "3: End" << endl;
+        cin >> choice;
+
         if (choice == 1) {
-            cout <<"Enter your name: " ;
-            cin >>username[save] ;
-            cout <<"Enter password: " ;
-            cin >> password[save] ;
-            cout <<"SignUp successfully"<<endl ;
+            cout << "Enter your name: ";
+            cin >> username[save];
+            cout << "Enter password: ";
+            cin >> password[save];
+            cout << "SignUp successfully!" << endl;
             save++;
         }
+
         else if (choice == 2) {
             string user ;
             string pass;
-            cout <<"Enter your name: " ;
-            cin >> user;
-            cout <<"Enter your password: " ;
-            cin >>pass;
-            bool logedIn = false;
-            
-            // int attempt = 0; // wrong place
-            for (int i=0 ; i<save; i++) {
-            attempt++ ;
+            int attempt = 0;
+            bool loggedIn = false;
 
-                if (username[i]==user && password[i]==pass) {
-                    cout <<"Login Successfully" << endl;
-                    break;
+            while (attempt < 3 && !loggedIn) {
+                cout << "Enter your name: ";
+                cin >> user;
+                cout << "Enter your password: ";
+                cin >> pass;
+
+                for (int i = 0; i < save; i++) {
+                    if (username[i] == user && password[i] == pass) {
+                        cout << "Login Successfully!" << endl;
+                        loggedIn = true;
+                        break;
+                    }
                 }
-                else 
-            cout <<"Invalid username or password" <<endl;
-            if (attempt == 3) {
-                cout <<"Account blocked" ;
-                break; 
-            }
-            }
+
+                if (!loggedIn) {
+                    attempt++;
+                    if (attempt < 3)
+                        cout << "Invalid username or password\n";
+                    else
+                        cout << "Account blocked\n";
+                }
+                }
+                
+
+
         }
+
         else if (choice == 3) {
-            cout <<"Visit Again" ;
-            break ;
+            cout << "Good bye" << endl;
+            break;
         }
+
+        else {
+            cout << "Invalid choice!" << endl;
+        }
+
     }
+
     return 0;
 }
