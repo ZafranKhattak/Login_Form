@@ -128,26 +128,27 @@ int main()
         else if (choice == 3)
         {
 
-            if (currentUser.empty())
+            if (currentUser == "" )
             {
                 cout << "You are not logged in. Please log in first." << endl;
                 continue;
             }
+            ofstream msgStoring("msg.txt" , ios::app) ;
 
             string yourName;
             cout << "Enter your name: ";
             cin >> yourName;
 
-            bool youExists = false;
+            bool youExist = false;
             for (int i = 0; i < userCount; i++)
             {
                 if (yourName == username[i])
                 {
-                    youExists = true;
+                    youExist = true;
                     break;
                 }
             }
-            if (!youExists)
+            if (!youExist)
             {
                 cout << "This user is not signed up." << endl;
                 continue;
@@ -180,22 +181,24 @@ int main()
 
             cout << "\n--- CHAT STARTED. TYPE exit TO END THE CHAT ---\n";
 
-            string subChoice;
+            string msg1 , msg2;
+
             cin.ignore(); 
 
             while (true)
             {
                 cout << "[<<" << yourName << ">>]: ";
-                getline(cin, subChoice);
-
-                if (subChoice == "exit")
+                getline(cin, msg1);
+                msgStoring << yourName << " : " <<msg1 <<  endl;
+                if (msg1 == "exit")
                     break;
 
                 cout << "[<<" << friendName << ">>]: ";
-                string reply;
-                getline(cin, subChoice);
+                getline(cin, msg2);
 
-                if (subChoice == "exit")
+                msgStoring << (friendName)<< " : " << msg2 <<  endl;
+                if (msg2 == "exit")
+
                     break;
             }
 
