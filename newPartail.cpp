@@ -29,10 +29,11 @@ int main()
         cout << "1) Sign Up\n";
         cout << "2) Login \n";
         cout << "3) Start Chatting\n";
-        cout << "4) Who am I?\n";
-        cout << "5) Logout\n";
-        cout << "6) Exit\n";
-        cout << "Enter choice (1 <--->6 ): ";
+        cout << "4) Chat History\n";
+        cout << "5) Who am I?\n";
+        cout << "6) Logout\n";
+        cout << "7) Exit\n";
+        cout << "Enter choice (1 <---> 7 ): ";
 
         int choice;
         cin >> choice;
@@ -141,9 +142,9 @@ int main()
                 cout << "Enter your name: ";
                 cin >> yourName;
 
-                string User1 , Pass ;
+                string User1 , Pass1 ;
                 bool youExist = false;
-                while(signInUser >> User1 >> Pass){
+                while(signInUser >> User1 >> Pass1){
                 for (int i = 0; i < userCount; i++)
                 {
                     if (yourName == User1)
@@ -165,7 +166,7 @@ int main()
                 cin >> friendName;
                 string User2 , Pass;
                 bool friendExists = false;
-                while(signInUser >> User2 >> Pass) {
+                while(signInUser >> User2 >> Pass1) {
 
                 for (int i = 0; i < userCount; i++)
                 {
@@ -213,15 +214,15 @@ int main()
             signInUser.close();
             cout << "\n--- CHAT ENDED ---\n";
         }
+        else if (choice == 4) {
+            cout <<"CHAT HISTORY NOT APPLICATBLE YET\n";
+            continue;
+        }
 
-        else if (choice == 4)
+        else if (choice == 5)
         {
 
             bool logedIn = true;
-
-            // string youname ;
-            // cout <<"Enter your name: " ;
-            // cin >> youname ;
 
             if (currentUser == "")
             {
@@ -236,7 +237,7 @@ int main()
                 cout << "You are logged in as: " << currentUser << endl;
             }
         }
-        else if (choice == 5)
+        else if (choice == 6)
         {
             bool logedOUT = true;
 
@@ -253,7 +254,7 @@ int main()
             }
         }
 
-        else if (choice == 6)
+        else if (choice == 7)
         {
 
             cout << "Good Bye! Come Again" << endl;
