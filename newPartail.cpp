@@ -4,21 +4,253 @@
 #include <limits>
 using namespace std;
 
-const int MAX_USERS = 10;
+const int MAX_USERS = 1000;
 
-int main()
+struct ChatApplication
 {
     string username[MAX_USERS];
     string password[MAX_USERS];
     int userCount = 0;
+    string currentUser = "";
+};
 
-    string currentUser;
+void SignUp(ChatApplication &chat)
+{
 
-    string currentUserSignUp;
+    ofstream signUpUser("signup.txt", ios::app);
+    bool alreadyAvailable = false;
+    string user;
+    cout << "Enter username: ";
+    cin >> user;
 
-    cout << "=========================================\n";
+    for (int i = 0; i < chat.userCount; i++)
+    {
+        if (user == chat.username[i])
+        {
+
+            cout << "User Already Available! Choose different name Please" << endl;
+            alreadyAvailable = true;
+        }
+    }
+
+    if (!alreadyAvailable)
+    {
+        string pass;
+        cout << "Enter password: ";
+        cin >> pass;
+
+        string confrimPassword;
+        cout << "Enter confirm password: ";
+        cin >> confrimPassword;
+
+        if (confrimPassword != pass)
+        {
+
+            cout << "password does not match! retype it please" << endl;
+        }
+        else
+        {
+            cout << "SignUp successfully! now you can SignIn" << endl;
+
+            chat.username[chat.userCount] = user;
+            chat.password[chat.userCount] = pass;
+
+            chat.userCount++;
+
+            signUpUser << user << " " << pass << endl;
+        }
+    }
+}
+
+void SignIn(ChatApplication &chat)
+{
+
+    ifstream signInUser("signup.txt");
+
+    string youname;
+    cout << "Enter your name: ";
+    cin >> youname;
+
+    string yourpass;
+    cout << "Enter your pass: ";
+    cin >> yourpass;
+
+    bool foundName = false;
+    string User;
+    string Pass;
+
+    while (signInUser >> User >> Pass)
+    {
+        if (youname == User)
+        {
+            foundName = true;
+            if (yourpass == Pass)
+            {
+                cout << "SignIn successfully! Welcome Dear " << youname << endl;
+                chat.currentUser = youname;
+            }
+            else
+            {
+                cout << "Invalid password! Try again" << endl;
+            }
+            break;
+        }
+    }
+
+    if (!foundName)
+    {
+        cout << "User not found. SignUp please" << endl;
+    }
+}
+
+void StartChatting(ChatApplication &chat)
+{
+    
+    ifstream signInUser("signup.txt");
+
+    string yourName;
+    cout << "Enter your name: ";
+    cin >> yourName;
+
+    // bool youExist = false;
+    // for (int i = 0; i < chat.userCount; i++)
+    // {
+    //     if (yourName == chat.username[i])
+    //     {
+    //         youExist = true;
+    //         continue;
+    //     }
+    // }
+
+    // if (!youExist)
+    // {
+    //     cout << "This user is not signed up." << endl;
+    //     return;
+    // }
+
+    string fileName ;
+
+    while (signInUser >> fileName) {
+
+        if (yourName == fileName){
+
+            break;
+        }
+    }
+
+    string friendName;
+    cout << "Enter your Friend Name: ";
+    cin >> friendName;
+
+    string fileFriend;
+
+    while(signInUser >> fileFriend) 
+{
+    if (fileFriend == friendName)
+    {
+        break;
+    }
+}
+
+    // bool friendExists = false;
+    // for (int i = 0; i < chat.userCount; i++)
+    // {
+    //     if (friendName == chat.username[i])
+    //     {
+    //         friendExists = true;
+    //         continue;
+    //     }
+    // }
+
+    // if (!friendExists)
+    // {
+    //     cout << "This friend is not signed up." << endl;
+    //     return;
+    // }
+
+    if (yourName == friendName)
+    {
+        cout << "You cannot chat with yourself!" << endl;
+        return;
+    }
+
+    cout << "\n--- CHAT STARTED. TYPE exit TO END THE CHAT ---\n";
+
+    ofstream msgStoring("msg.txt", ios::app);
+
+    string msg1, msg2;
+
+    cin.ignore();
+
+    while (true)
+    {
+        cout << "[<<" << yourName << ">>]: ";
+        getline(cin, msg1);
+        msgStoring << yourName << " : " << msg1 << endl;
+        if (msg1 == "exit")
+            break;
+
+        cout << "[<<" << friendName << ">>]: ";
+        getline(cin, msg2);
+
+        msgStoring << friendName << " : " << msg2 << endl;
+        if (msg2 == "exit")
+            break;
+    }
+
+    signInUser.close();
+    cout << "\n--- CHAT ENDED ---\n";
+}
+
+void whoIam(ChatApplication &chat)
+{
+
+    bool logedIn = true;
+
+    if (chat.currentUser == "")
+    {
+
+        cout << "You are not logged in . Please logged in first" << endl;
+
+        logedIn = false;
+    }
+    else
+    {
+
+        cout << "You are logged in as: " << chat.currentUser << endl;
+    }
+}
+
+void logOut(ChatApplication &chat)
+{
+    
+        {
+            bool logedOUT = true;
+
+            if (chat.currentUser == "")
+            {
+
+                cout << "No user currently logged In . Thanks" << endl;
+                logedOUT = true;
+            }
+            else
+            {
+
+                cout << "You are logged out as a user: " <<chat.currentUser << endl;
+                chat.currentUser = "";
+                return ;
+            }
+        }
+}
+
+int main()
+{
+
+    ChatApplication chat;
+
+    cout << "==================================================\n";
     cout << "      W E L C O M E   T O  CHAT APPLICATION \n";
-    cout << "=========================================\n";
+    cout << "==================================================\n";
     cout << " If you're new here, choose '1' to Register.\n";
     cout << " If you already have an account, choose '2' to Log in.\n";
     cout << " You can log out anytime from the menu.\n\n";
@@ -41,223 +273,41 @@ int main()
         if (choice == 1)
         {
 
-            ofstream signUpUser("signup.txt", ios::app);
-            bool alreadyAvailable = false;
-            string user;
-            cout << "Enter username: ";
-            cin >> user;
-
-            for (int i = 0; i < userCount; i++)
-            {
-                if (user == username[i])
-                {
-
-                    cout << "User Already Available! Choose different name Please" << endl;
-                    alreadyAvailable = true;
-                }
-            }
-
-            if (!alreadyAvailable)
-            {
-                string pass;
-                cout << "Enter password: ";
-                cin >> pass;
-
-                string confrimPassword;
-                cout << "Enter confirm password: ";
-                cin >> confrimPassword;
-
-                if (confrimPassword != pass)
-                {
-
-                    cout << "password does not match! retype it please" << endl;
-                }
-                else
-                {
-                    cout << "SignUp successfully! now you can SignIn" << endl;
-
-                    username[userCount] = user;
-                    password[userCount] = pass;
-
-                    currentUserSignUp = user;
-                    userCount++;
-
-                    signUpUser << user << " " << pass << endl;
-                }
-            }
+            SignUp(chat);
         }
 
         else if (choice == 2)
         {
-            ifstream signInUser("signup.txt");
 
-            string youname;
-            cout << "Enter your name: ";
-            cin >> youname;
-
-            string yourpass;
-            cout << "Enter your pass: ";
-            cin >> yourpass;
-
-            bool foundName = false;
-            string User;
-            string Pass;
-
-            while (signInUser >> User >> Pass)
-            {
-                if (youname == User)
-                {
-                    foundName = true;
-                    if (yourpass == Pass)
-                    {
-                        cout << "SignIn successfully! Welcome Dear " << youname << endl;
-                        currentUser = youname;
-                    }
-                    else
-                    {
-                        cout << "Invalid password! Try again" << endl;
-                    }
-                    break;
-                }
-            }
-
-            if (!foundName)
-            {
-                cout << "User not found. SignUp please" << endl;
-            }
+            SignIn(chat);
         }
         else if (choice == 3)
         {
 
-            if (currentUser == "")
-            {
-                cout << "You are not logged in. Please log in first." << endl;
-                continue;
-            }
-
-                ifstream signInUser("signup.txt") ;
-                ofstream msgStoring("msg.txt" , ios::app) ;
-
-                string yourName;
-                cout << "Enter your name: ";
-                cin >> yourName;
-
-                string User1 , Pass1 ;
-                bool youExist = false;
-                while(signInUser >> User1 >> Pass1){
-                for (int i = 0; i < userCount; i++)
-                {
-                    if (yourName == User1)
-                    {
-                        youExist = true;
-                        break;
-                    }
-                }
-                if (!youExist)
-                {
-                    cout << "This user is not signed up." << endl;
-                    continue;
-                }
-            }
-                signInUser.clear();
-                signInUser.seekg(0) ;
-                string friendName;
-                cout << "Enter your Friend Name: ";
-                cin >> friendName;
-                string User2 , Pass;
-                bool friendExists = false;
-                while(signInUser >> User2 >> Pass1) {
-
-                for (int i = 0; i < userCount; i++)
-                {
-                    if (friendName == User2)
-                    {
-                        friendExists = true;
-                        break;
-                    }
-                }
-                if (!friendExists)
-                {
-                    cout << "This friend is not signed up." << endl;
-                    continue;
-                }
-
-                if (yourName == friendName)
-                {
-                    cout << "You cannot chat with yourself!" << endl;
-                    continue;
-                }
-            }
-            
-            cout << "\n--- CHAT STARTED. TYPE exit TO END THE CHAT ---\n";
-
-            string msg1, msg2;
-
-            cin.ignore();
-
-            while (true)
-            {
-                cout << "[<<" << yourName << ">>]: ";
-                getline(cin, msg1);
-                msgStoring << yourName << " : " << msg1 << endl;
-                if (msg1 == "exit")
-                    break;
-
-                cout << "[<<" << friendName << ">>]: ";
-                getline(cin, msg2);
-
-                msgStoring << (friendName) << " : " << msg2 << endl;
-                if (msg2 == "exit")
-
-                    break;
-            }
-            signInUser.close();
-            cout << "\n--- CHAT ENDED ---\n";
+            StartChatting(chat);
         }
-        else if (choice == 4) {
+
+        else if (choice == 4) 
+        {
+            ifstream msgStoring("msg.txt") ;
             cout <<"CHAT HISTORY NOT APPLICATBLE YET\n";
             continue;
         }
 
         else if (choice == 5)
         {
-
-            bool logedIn = true;
-
-            if (currentUser == "")
-            {
-
-                cout << "You are not logged in . Please logged in first" << endl;
-
-                logedIn = false;
-            }
-            else
-            {
-
-                cout << "You are logged in as: " << currentUser << endl;
-            }
+               whoIam(chat) ;
+            
         }
         else if (choice == 6)
         {
-            bool logedOUT = true;
-
-            if (currentUser == "")
-            {
-
-                cout << "No user currently logged In . Thanks" << endl;
-                logedOUT = true;
-            }
-            else
-            {
-
-                cout << "You are logged out as a user: " << currentUser << endl;
-            }
+                logOut(chat) ;
         }
+
 
         else if (choice == 7)
         {
-
-            cout << "Good Bye! Come Again" << endl;
+            cout << "Good Bye!";
             break;
         }
 
