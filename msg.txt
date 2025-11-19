@@ -1,4 +1,0 @@
-zafran : k
-khan : k
-zafran : exit
-zafran : exit

@@ -18,7 +18,6 @@ void SignUp(ChatApplication &chat)
 {
 
     ofstream signUpUser("signup.txt", ios::app);
-    bool alreadyAvailable = false;
     string user;
     cout << "Enter username: ";
     cin >> user;
@@ -29,37 +28,55 @@ void SignUp(ChatApplication &chat)
         {
 
             cout << "User Already Available! Choose different name Please" << endl;
-            alreadyAvailable = true;
+            return;
         }
     }
 
-    if (!alreadyAvailable)
+    // duplicate check if program is closed even
+
+    ifstream readFile("signup.txt");
+    string u, p;
+
+    while (readFile >> u >> p)
     {
-        string pass;
-        cout << "Enter password: ";
-        cin >> pass;
-
-        string confrimPassword;
-        cout << "Enter confirm password: ";
-        cin >> confrimPassword;
-
-        if (confrimPassword != pass)
+        if (u == user)
         {
-
-            cout << "password does not match! retype it please" << endl;
-        }
-        else
-        {
-            cout << "SignUp successfully! now you can SignIn" << endl;
-
-            chat.username[chat.userCount] = user;
-            chat.password[chat.userCount] = pass;
-
-            chat.userCount++;
-
-            signUpUser << user << " " << pass << endl;
+            cout << "User Already Exists in the system! Choose another username.\n";
+            readFile.close();
+            return;
         }
     }
+    readFile.close();
+
+    string pass;
+    cout << "Enter password: ";
+    cin >> pass;
+
+    string confrimPassword;
+    cout << "Enter confirm password: ";
+    cin >> confrimPassword;
+
+    // CHECK PASSWORD MATCH
+
+    if (confrimPassword != pass)
+    {
+
+        cout << "password does not match! retype it please" << endl;
+        return;
+    }
+    else
+    {
+        cout << "SignUp successfully! now you can SignIn" << endl;
+
+        chat.username[chat.userCount] = user;
+        chat.password[chat.userCount] = pass;
+
+        chat.userCount++;
+
+        signUpUser << user << " " << pass << endl;
+    }
+
+    signUpUser.close();
 }
 
 void SignIn(ChatApplication &chat)
@@ -100,7 +117,11 @@ void SignIn(ChatApplication &chat)
     if (!foundName)
     {
         cout << "User not found. SignUp please" << endl;
+        signInUser.close();
+        return;
     }
+
+    signInUser.close();
 }
 
 void StartChatting(ChatApplication &chat)
@@ -108,14 +129,14 @@ void StartChatting(ChatApplication &chat)
 
     ifstream signInUser("signup.txt");
 
-    string yourName;
+    string yourName, p;
     cout << "Enter your Name: ";
     cin >> yourName;
     string FileName;
 
     bool iExisted = false;
 
-    while (signInUser >> FileName)
+    while (signInUser >> FileName >> p)
     {
         if (yourName == FileName)
         {
@@ -126,8 +147,8 @@ void StartChatting(ChatApplication &chat)
 
     if (!iExisted)
     {
-        cout << "User not SignIn\n";
-        return ;
+        cout << "User not SignUp\n";
+        return;
     }
 
     string friendName;
@@ -140,10 +161,10 @@ void StartChatting(ChatApplication &chat)
         cout << "Cannot Chat with yourself\n";
         return;
     }
-    string fileFriend;
+    string fileFriend, p1;
     bool isExisted = false;
 
-    while (signInUser >> fileFriend)
+    while (signInUser >> fileFriend >> p1)
     {
         if (friendName == fileFriend)
         {
@@ -153,7 +174,7 @@ void StartChatting(ChatApplication &chat)
     }
     if (!isExisted)
     {
-        cout << "User Not SignIn\n";
+        cout << "User Not SignUp\n";
         return;
     }
 
@@ -188,14 +209,12 @@ void StartChatting(ChatApplication &chat)
 void whoIam(ChatApplication &chat)
 {
 
-    bool logedIn = true;
-
     if (chat.currentUser == "")
     {
 
-        cout << "You are not logged in . Please logged in first" << endl;
+        cout << "You are not logged in . Please log in first" << endl;
 
-        logedIn = false;
+        return;
     }
     else
     {
