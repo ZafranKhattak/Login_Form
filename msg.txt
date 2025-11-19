@@ -1,9 +1,4 @@
-zafran : hello imran bhai
-imran : g g zafran bhai
-zafran : kaisay ho
-imran : theek hoo
+zafran : k
+khan : k
 zafran : exit
 zafran : exit
-hello : hel
-mello : keh
-hello : exit

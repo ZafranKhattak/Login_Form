@@ -105,72 +105,55 @@ void SignIn(ChatApplication &chat)
 
 void StartChatting(ChatApplication &chat)
 {
-    
+
     ifstream signInUser("signup.txt");
 
     string yourName;
-    cout << "Enter your name: ";
+    cout << "Enter your Name: ";
     cin >> yourName;
+    string FileName;
 
-    // bool youExist = false;
-    // for (int i = 0; i < chat.userCount; i++)
-    // {
-    //     if (yourName == chat.username[i])
-    //     {
-    //         youExist = true;
-    //         continue;
-    //     }
-    // }
+    bool iExisted = false;
 
-    // if (!youExist)
-    // {
-    //     cout << "This user is not signed up." << endl;
-    //     return;
-    // }
-
-    string fileName ;
-
-    while (signInUser >> fileName) {
-
-        if (yourName == fileName){
-
+    while (signInUser >> FileName)
+    {
+        if (yourName == FileName)
+        {
+            iExisted = true;
             break;
         }
+    }
+
+    if (!iExisted)
+    {
+        cout << "User not SignIn\n";
+        return ;
     }
 
     string friendName;
     cout << "Enter your Friend Name: ";
     cin >> friendName;
 
-    string fileFriend;
-
-    while(signInUser >> fileFriend) 
-{
-    if (fileFriend == friendName)
-    {
-        break;
-    }
-}
-
-    // bool friendExists = false;
-    // for (int i = 0; i < chat.userCount; i++)
-    // {
-    //     if (friendName == chat.username[i])
-    //     {
-    //         friendExists = true;
-    //         continue;
-    //     }
-    // }
-
-    // if (!friendExists)
-    // {
-    //     cout << "This friend is not signed up." << endl;
-    //     return;
-    // }
-
     if (yourName == friendName)
     {
-        cout << "You cannot chat with yourself!" << endl;
+
+        cout << "Cannot Chat with yourself\n";
+        return;
+    }
+    string fileFriend;
+    bool isExisted = false;
+
+    while (signInUser >> fileFriend)
+    {
+        if (friendName == fileFriend)
+        {
+            isExisted = true;
+            break;
+        }
+    }
+    if (!isExisted)
+    {
+        cout << "User Not SignIn\n";
         return;
     }
 
@@ -182,7 +165,7 @@ void StartChatting(ChatApplication &chat)
 
     cin.ignore();
 
-    while (true)
+    while (signInUser)
     {
         cout << "[<<" << yourName << ">>]: ";
         getline(cin, msg1);
@@ -223,24 +206,24 @@ void whoIam(ChatApplication &chat)
 
 void logOut(ChatApplication &chat)
 {
-    
+
+    {
+        bool logedOUT = true;
+
+        if (chat.currentUser == "")
         {
-            bool logedOUT = true;
 
-            if (chat.currentUser == "")
-            {
-
-                cout << "No user currently logged In . Thanks" << endl;
-                logedOUT = true;
-            }
-            else
-            {
-
-                cout << "You are logged out as a user: " <<chat.currentUser << endl;
-                chat.currentUser = "";
-                return ;
-            }
+            cout << "No user currently logged In . Thanks" << endl;
+            logedOUT = true;
         }
+        else
+        {
+
+            cout << "You are logged out as a user: " << chat.currentUser << endl;
+            chat.currentUser = "";
+            return;
+        }
+    }
 }
 
 int main()
@@ -287,27 +270,25 @@ int main()
             StartChatting(chat);
         }
 
-        else if (choice == 4) 
+        else if (choice == 4)
         {
-            ifstream msgStoring("msg.txt") ;
-            cout <<"CHAT HISTORY NOT APPLICATBLE YET\n";
+            ifstream msgStoring("msg.txt");
+            cout << "CHAT HISTORY NOT APPLICATBLE YET\n";
             continue;
         }
 
         else if (choice == 5)
         {
-               whoIam(chat) ;
-            
+            whoIam(chat);
         }
         else if (choice == 6)
         {
-                logOut(chat) ;
+            logOut(chat);
         }
-
 
         else if (choice == 7)
         {
-            cout << "Good Bye!";
+            cout << "Good Bye!\nHave a nice day";
             break;
         }
 
@@ -317,6 +298,5 @@ int main()
             cout << "Please enter a valid choice!" << endl;
         }
     }
-
     return 0;
 }
