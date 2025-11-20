@@ -29,7 +29,9 @@ void SignUp(ChatApplication &chat)
         {
 
             cout << "User Already Available! Choose different name Please" << endl;
-            return;
+
+            cout << "Enter username: ";
+            cin >> user;
         }
     }
 
@@ -44,47 +46,52 @@ void SignUp(ChatApplication &chat)
         {
             cout << "User Already Exists in the system! Choose another username.\n";
             readFile.close();
-            return;
+            cout << "Enter username: ";
+            cin >> user;
         }
     }
     readFile.close();
 
-    cout <<"Password Must contain at least 8 character\n" ;
+    cout << "Password Must contain at least 8 character\n";
+
     string pass;
     cout << "Enter password: ";
     cin >> pass;
 
-    if (pass.length() < 8)
-    {
-        cout <<"Password should Atleast 8 character\n" ;
-        return ;
-    }
-    string confrimPassword;
-    cout << "Enter confirm password: ";
-    cin >> confrimPassword;
-
-    // CHECK PASSWORD MATCH
-
-    if (confrimPassword != pass)
+    while (pass.length() < 8)
     {
 
-        cout << "password does not match! retype it please" << endl;
-        return;
-    }
-    else
-    {
-        cout << "SignUp successfully! now you can SignIn" << endl;
-
-        chat.username[chat.userCount] = user;
-        chat.password[chat.userCount] = pass;
-
-        chat.userCount++;
-
-        signUpUser << user << " " << pass << endl;
+        cout << "Password should Atleast 8 character\n";
+        cout << "Enter password again: ";
+        cin >> pass;
     }
 
-    signUpUser.close();
-}
+        string confrimPassword;
+        cout << "Enter confirm password: ";
+        cin >> confrimPassword;
+    
+        // CHECK PASSWORD MATCH
+while(confrimPassword !=pass) {
+
+            cout << "password does not match! retype it please: " ;
+            cin >> confrimPassword;
+}        
+        
+        {
+            cout << "SignUp successfully! now you can SignIn" << endl;
+
+            chat.username[chat.userCount] = user;
+            chat.password[chat.userCount] = pass;
+
+            chat.userCount++;
+
+            signUpUser << user << " " << pass << endl;
+        }
+
+        signUpUser.close();
+    }
+
+    // SignUp Function is Below
 
 void SignIn(ChatApplication &chat)
 {
@@ -112,7 +119,6 @@ void SignIn(ChatApplication &chat)
             {
                 cout << "SignIn successfully! Welcome Dear " << youname << endl;
                 chat.currentUser = youname;
-                
             }
             else
             {
@@ -182,7 +188,7 @@ void StartChatting(ChatApplication &chat)
     }
     if (!isExisted)
     {
-        cout << friendName<< " IS currently offline" << endl;
+        cout << friendName << " IS currently offline" << endl;
         return;
     }
 
@@ -275,15 +281,15 @@ int main()
 
     while (true)
     {
-        cout << setw(80)<< "====== Main Menu ======\n";
-        cout << setw(69)<< "1) Sign Up\n\n";
-        cout << setw(67)<< "2) Login\n\n";
-        cout << setw(76)<< "3) Start Chatting\n\n";
-        cout << setw(74)<< "4) Chat History\n\n";
-        cout << setw(71)<< "5) Who am I?\n\n";
-        cout << setw(68)<< "6) Logout\n\n";
-        cout << setw(66)<< "7) Exit\n\n";
-        cout << setw(84)<< "Enter choice (1 <---> 7): ";
+        cout << setw(80) << "====== Main Menu ======\n";
+        cout << setw(69) << "1) Sign Up\n\n";
+        cout << setw(67) << "2) Login\n\n";
+        cout << setw(76) << "3) Start Chatting\n\n";
+        cout << setw(74) << "4) Chat History\n\n";
+        cout << setw(71) << "5) Who am I?\n\n";
+        cout << setw(68) << "6) Logout\n\n";
+        cout << setw(66) << "7) Exit\n\n";
+        cout << setw(84) << "Enter choice (1 <---> 7): ";
 
         int choice;
         cin >> choice;
