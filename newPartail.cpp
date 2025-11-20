@@ -259,13 +259,6 @@ void logOut(ChatApplication &chat)
     }
 }
 
-void centerText(const string &text, int width = 80)
-{
-    int leftPadding = (width - text.length()) / 2;
-    if (leftPadding < 0)
-        leftPadding = 0;
-    cout << string(leftPadding, ' ') << text << endl;
-}
 
 int main()
 {
