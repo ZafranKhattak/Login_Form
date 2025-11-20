@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 #include <limits>
 using namespace std;
 
@@ -48,10 +49,16 @@ void SignUp(ChatApplication &chat)
     }
     readFile.close();
 
+    cout <<"Password Must contain at least 8 character\n" ;
     string pass;
     cout << "Enter password: ";
     cin >> pass;
 
+    if (pass.length() < 8)
+    {
+        cout <<"Password should Atleast 8 character\n" ;
+        return ;
+    }
     string confrimPassword;
     cout << "Enter confirm password: ";
     cin >> confrimPassword;
@@ -105,6 +112,7 @@ void SignIn(ChatApplication &chat)
             {
                 cout << "SignIn successfully! Welcome Dear " << youname << endl;
                 chat.currentUser = youname;
+                
             }
             else
             {
@@ -147,7 +155,7 @@ void StartChatting(ChatApplication &chat)
 
     if (!iExisted)
     {
-        cout << "User not SignUp\n";
+        cout << yourName << " IS currently offline" << endl;
         return;
     }
 
@@ -174,7 +182,7 @@ void StartChatting(ChatApplication &chat)
     }
     if (!isExisted)
     {
-        cout << "User Not SignUp\n";
+        cout << friendName<< " IS currently offline" << endl;
         return;
     }
 
@@ -245,29 +253,37 @@ void logOut(ChatApplication &chat)
     }
 }
 
+void centerText(const string &text, int width = 80)
+{
+    int leftPadding = (width - text.length()) / 2;
+    if (leftPadding < 0)
+        leftPadding = 0;
+    cout << string(leftPadding, ' ') << text << endl;
+}
+
 int main()
 {
 
     ChatApplication chat;
 
-    cout << "==================================================\n";
-    cout << "      W E L C O M E   T O  CHAT APPLICATION \n";
-    cout << "==================================================\n";
-    cout << " If you're new here, choose '1' to Register.\n";
-    cout << " If you already have an account, choose '2' to Log in.\n";
-    cout << " You can log out anytime from the menu.\n\n";
+    cout << setw(95) << "==================================================\n";
+    cout << setw(95) << "      W E L C O M E   T O   C H A T   A P P       \n";
+    cout << setw(95) << "==================================================\n\n";
+    cout << setw(87) << " If you're new here, choose '1' to Register.\n";
+    cout << setw(97) << " If you already have an account, choose '2' to Log in.\n";
+    cout << setw(83) << " You can log out anytime from the menu.\n\n";
 
     while (true)
     {
-        cout << "\n===== Main Menu =====\n";
-        cout << "1) Sign Up\n";
-        cout << "2) Login \n";
-        cout << "3) Start Chatting\n";
-        cout << "4) Chat History\n";
-        cout << "5) Who am I?\n";
-        cout << "6) Logout\n";
-        cout << "7) Exit\n";
-        cout << "Enter choice (1 <---> 7 ): ";
+        cout << setw(80)<< "====== Main Menu ======\n";
+        cout << setw(69)<< "1) Sign Up\n\n";
+        cout << setw(67)<< "2) Login\n\n";
+        cout << setw(76)<< "3) Start Chatting\n\n";
+        cout << setw(74)<< "4) Chat History\n\n";
+        cout << setw(71)<< "5) Who am I?\n\n";
+        cout << setw(68)<< "6) Logout\n\n";
+        cout << setw(66)<< "7) Exit\n\n";
+        cout << setw(84)<< "Enter choice (1 <---> 7): ";
 
         int choice;
         cin >> choice;
