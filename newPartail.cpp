@@ -259,6 +259,28 @@ void logOut(ChatApplication &chat)
     }
 }
 
+void chatHistory(ChatApplication &chat)
+{
+    ifstream msgStoring("msg.txt");
+
+    string line;
+    bool found = false;
+
+    while (getline(msgStoring, line))
+    {
+        {
+            cout << line << endl;
+            found = true;
+        }
+    }
+
+    if (!found){
+        cout << "No chat history found!" << endl;
+        return ;
+}
+}
+
+
 
 int main()
 {
@@ -306,9 +328,7 @@ int main()
 
         else if (choice == 4)
         {
-            ifstream msgStoring("msg.txt");
-            cout << "CHAT HISTORY NOT APPLICATBLE YET\n";
-            continue;
+            chatHistory(chat) ;
         }
 
         else if (choice == 5)
