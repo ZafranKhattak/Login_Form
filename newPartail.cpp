@@ -66,32 +66,33 @@ void SignUp(ChatApplication &chat)
         cin >> pass;
     }
 
-        string confrimPassword;
-        cout << "Enter confirm password: ";
+    string confrimPassword;
+    cout << "Enter confirm password: ";
+    cin >> confrimPassword;
+
+    // CHECK PASSWORD MATCH
+    while (confrimPassword != pass)
+    {
+
+        cout << "password does not match! retype it please: ";
         cin >> confrimPassword;
-    
-        // CHECK PASSWORD MATCH
-while(confrimPassword !=pass) {
-
-            cout << "password does not match! retype it please: " ;
-            cin >> confrimPassword;
-}        
-        
-        {
-            cout << "SignUp successfully! now you can SignIn" << endl;
-
-            chat.username[chat.userCount] = user;
-            chat.password[chat.userCount] = pass;
-
-            chat.userCount++;
-
-            signUpUser << user << " " << pass << endl;
-        }
-
-        signUpUser.close();
     }
 
-    // SignUp Function is Below
+    {
+        cout << "SignUp successfully! now you can SignIn" << endl;
+
+        chat.username[chat.userCount] = user;
+        chat.password[chat.userCount] = pass;
+
+        chat.userCount++;
+
+        signUpUser << user << " " << pass << endl;
+    }
+
+    signUpUser.close();
+}
+
+// SignUp Function is Below
 
 void SignIn(ChatApplication &chat)
 {
@@ -263,24 +264,22 @@ void chatHistory(ChatApplication &chat)
 {
     ifstream msgStoring("msg.txt");
 
-    string line;
+    string msg;
     bool found = false;
 
-    while (getline(msgStoring, line))
+    while (getline(msgStoring, msg))
     {
-        {
-            cout << line << endl;
-            found = true;
-        }
+
+        cout << msg << endl;
+        found = true;
     }
 
-    if (!found){
+    if (!found)
+    {
         cout << "No chat history found!" << endl;
-        return ;
+        return;
+    }
 }
-}
-
-
 
 int main()
 {
@@ -328,7 +327,7 @@ int main()
 
         else if (choice == 4)
         {
-            chatHistory(chat) ;
+            chatHistory(chat);
         }
 
         else if (choice == 5)
