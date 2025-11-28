@@ -11,10 +11,12 @@ struct ChatApplication
 {
     string username[MAX_USERS];
     string password[MAX_USERS];
+    string groupChat[MAX_USERS];
     int userCount = 0;
     string currentUser = "";
 };
 
+// SignUp section
 void SignUp(ChatApplication &chat)
 {
 
@@ -22,18 +24,6 @@ void SignUp(ChatApplication &chat)
     string user;
     cout << "Enter username: ";
     cin >> user;
-
-    for (int i = 0; i < chat.userCount; i++)
-    {
-        if (user == chat.username[i])
-        {
-
-            cout << "User Already Available! Choose different name Please" << endl;
-
-            cout << "Enter username: ";
-            cin >> user;
-        }
-    }
 
     // duplicate check if program is closed even
 
@@ -139,6 +129,8 @@ void SignIn(ChatApplication &chat)
     signInUser.close();
 }
 
+// Chatting section for two person
+
 void StartChatting(ChatApplication &chat)
 {
 
@@ -147,8 +139,8 @@ void StartChatting(ChatApplication &chat)
     string yourName, p;
     cout << "Enter your Name: ";
     cin >> yourName;
-    string FileName;
 
+    string FileName;
     bool iExisted = false;
 
     while (signInUser >> FileName >> p)
@@ -221,6 +213,162 @@ void StartChatting(ChatApplication &chat)
     cout << "\n--- CHAT ENDED ---\n";
 }
 
+// Group Chatting Section
+
+void GroupChatting(ChatApplication &chat)
+{
+    ifstream signInUser("signup.txt");
+
+    string p1;  // person name
+    string ps1; // person password
+
+    cout << "Enter your Person 1: ";
+    cin >> p1;
+
+    bool P1Existed = false;
+    string pr1;
+
+    while (signInUser >> pr1 >> ps1)
+    {
+        if (p1 == pr1)
+        {
+            P1Existed = true;
+            break;
+        }
+    }
+
+    if (!P1Existed)
+    {
+
+        cout << "This is currently offline\n";
+    }
+
+    string p2, ps2;
+
+    cout << "Enter your second Friend: ";
+    cin >> p2;
+
+    if (p2 == p1)
+    {
+        cout << "You cannot chat with yourself! Thank you\n";
+        return;
+    }
+
+    string pr2; // person 2
+    bool P2Existed = false;
+    while (signInUser >> pr2 >> ps2)
+    {
+        if (p2 == pr2)
+        {
+            P2Existed = true;
+            break;
+        }
+    }
+
+    if (!P2Existed)
+    {
+        cout << "This is currently offline\n";
+    }
+
+    // 
+    
+    string person3;  // person name
+    string pass3; // person password
+
+    cout << "Enter your Person 1: ";
+    cin >> person3;
+
+    bool P3Existed = false;
+    string pr3;
+
+    while (signInUser >> pr3 >> pass3)
+    {
+        if (person3 == pr3)
+        {
+            P3Existed = true;
+            break;
+        }
+    }
+
+    if (!P3Existed)
+    {
+
+        cout << "This is currently offline\n";
+        return;
+    }
+
+    string p4;  // person 4 name
+    string ps4; // person password
+
+    cout << "Enter your Person 4: ";
+    cin >> p4;
+
+    if (p4 == person3 || p4 == p2 || p4 == p1)
+    {
+        cout << "You cannot chatt with your self bro! Thank you\n";
+        return;
+    }
+
+    bool P4Existed = false;
+    string pr4;
+
+    while (signInUser >> pr4 >> ps4)
+    {
+        if (p4 == pr4)
+        {
+            P1Existed = true;
+            break;
+        }
+    }
+
+    if (!P4Existed)
+    {
+
+        cout << "This is currently offline\n";
+        return;
+    }
+
+    cout << "\n--- CHAT STARTED. TYPE exit TO END THE CHAT ---\n";
+
+    ofstream groupMsgStoring("gmsg.txt", ios::app);
+
+    string msg1, msg2, msg3, msg4;
+
+    cin.ignore();
+
+    while (signInUser)
+    {
+        cout << "[<<" << p1 << ">>]: ";
+        getline(cin, msg1);
+        groupMsgStoring << p1 << " : " << msg1 << endl;
+        if (msg1 == "exit")
+            break;
+
+        cout << "[<<" << person3 << ">>]: ";
+        getline(cin, msg3);
+        groupMsgStoring << person3 << " : " << msg2 << endl;
+        if (msg3 == "exit")
+            break;
+
+        cout << "[<<" << p2 << ">>]: ";
+        getline(cin, msg2);
+        groupMsgStoring << p2 << " : " << msg1 << endl;
+        if (msg2 == "exit")
+            break;
+
+        cout << "[<<" << p4 << ">>]: ";
+        getline(cin, msg4);
+        groupMsgStoring << p4 << " : " << msg2 << endl;
+        if (msg4 == "exit")
+            break;
+    }
+
+    signInUser.close();
+    cout << "\n--- CHAT ENDED ---\n";
+}
+
+// Who am I SECTION
+
 void whoIam(ChatApplication &chat)
 {
 
@@ -237,6 +385,8 @@ void whoIam(ChatApplication &chat)
         cout << "You are logged in as: " << chat.currentUser << endl;
     }
 }
+
+// LGOUT OUT SECTION CURRENT USER
 
 void logOut(ChatApplication &chat)
 {
@@ -260,6 +410,8 @@ void logOut(ChatApplication &chat)
     }
 }
 
+// CHAT HISTORY OF TWO PERSON;
+
 void chatHistory(ChatApplication &chat)
 {
     ifstream msgStoring("msg.txt");
@@ -281,6 +433,8 @@ void chatHistory(ChatApplication &chat)
     }
 }
 
+// MAIN SECTION 
+
 int main()
 {
 
@@ -299,11 +453,12 @@ int main()
         cout << setw(69) << "1) Sign Up\n\n";
         cout << setw(67) << "2) Login\n\n";
         cout << setw(76) << "3) Start Chatting\n\n";
-        cout << setw(74) << "4) Chat History\n\n";
-        cout << setw(71) << "5) Who am I?\n\n";
-        cout << setw(68) << "6) Logout\n\n";
-        cout << setw(66) << "7) Exit\n\n";
-        cout << setw(84) << "Enter choice (1 <---> 7): ";
+        cout << setw(76) << "4) Group Chatting\n\n";
+        cout << setw(74) << "5) Chat History\n\n";
+        cout << setw(71) << "6) Who am I?\n\n";
+        cout << setw(68) << "7) Logout\n\n";
+        cout << setw(66) << "8) Exit\n\n";
+        cout << setw(84) << "Enter choice (1 <---> 8): ";
 
         int choice;
         cin >> choice;
@@ -324,22 +479,26 @@ int main()
 
             StartChatting(chat);
         }
-
         else if (choice == 4)
         {
-            chatHistory(chat);
+            GroupChatting(chat);
         }
 
         else if (choice == 5)
         {
+            chatHistory(chat);
+        }
+
+        else if (choice == 6)
+        {
             whoIam(chat);
         }
-        else if (choice == 6)
+        else if (choice == 7)
         {
             logOut(chat);
         }
 
-        else if (choice == 7)
+        else if (choice == 8)
         {
             cout << "Good Bye!\nHave a nice day";
             break;
