@@ -219,18 +219,18 @@ void GroupChatting(ChatApplication &chat)
 {
     ifstream signInUser("signup.txt");
 
-    string p1;  // person name
-    string ps1; // person password
+    string person1; // person name
+    string pass1;   // person password
 
     cout << "Enter your Person 1: ";
-    cin >> p1;
+    cin >> person1;
 
     bool P1Existed = false;
     string pr1;
 
-    while (signInUser >> pr1 >> ps1)
+    while (signInUser >> pr1 >> pass1)
     {
-        if (p1 == pr1)
+        if (person1 == pr1)
         {
             P1Existed = true;
             break;
@@ -243,12 +243,12 @@ void GroupChatting(ChatApplication &chat)
         cout << "This is currently offline\n";
     }
 
-    string p2, ps2;
+    string person2, pass2;
 
     cout << "Enter your second Friend: ";
-    cin >> p2;
+    cin >> person2;
 
-    if (p2 == p1)
+    if (person2 == person1)
     {
         cout << "You cannot chat with yourself! Thank you\n";
         return;
@@ -256,9 +256,9 @@ void GroupChatting(ChatApplication &chat)
 
     string pr2; // person 2
     bool P2Existed = false;
-    while (signInUser >> pr2 >> ps2)
+    while (signInUser >> pr2 >> pass2)
     {
-        if (p2 == pr2)
+        if (person2 == pr2)
         {
             P2Existed = true;
             break;
@@ -270,12 +270,10 @@ void GroupChatting(ChatApplication &chat)
         cout << "This is currently offline\n";
     }
 
-    // 
-    
-    string person3;  // person name
-    string pass3; // person password
+    string person3; // person name
+    string pass3;   // person password
 
-    cout << "Enter your Person 1: ";
+    cout << "Enter your third person: ";
     cin >> person3;
 
     bool P3Existed = false;
@@ -294,16 +292,15 @@ void GroupChatting(ChatApplication &chat)
     {
 
         cout << "This is currently offline\n";
-        return;
     }
 
     string p4;  // person 4 name
     string ps4; // person password
 
-    cout << "Enter your Person 4: ";
+    cout << "Enter your fourth Person: ";
     cin >> p4;
 
-    if (p4 == person3 || p4 == p2 || p4 == p1)
+    if (p4 == person3 || p4 == person2 || p4 == person1)
     {
         cout << "You cannot chatt with your self bro! Thank you\n";
         return;
@@ -325,7 +322,6 @@ void GroupChatting(ChatApplication &chat)
     {
 
         cout << "This is currently offline\n";
-        return;
     }
 
     cout << "\n--- CHAT STARTED. TYPE exit TO END THE CHAT ---\n";
@@ -338,9 +334,9 @@ void GroupChatting(ChatApplication &chat)
 
     while (signInUser)
     {
-        cout << "[<<" << p1 << ">>]: ";
+        cout << "[<<" << person1 << ">>]: ";
         getline(cin, msg1);
-        groupMsgStoring << p1 << " : " << msg1 << endl;
+        groupMsgStoring << person1 << " : " << msg1 << endl;
         if (msg1 == "exit")
             break;
 
@@ -350,9 +346,9 @@ void GroupChatting(ChatApplication &chat)
         if (msg3 == "exit")
             break;
 
-        cout << "[<<" << p2 << ">>]: ";
+        cout << "[<<" << person2 << ">>]: ";
         getline(cin, msg2);
-        groupMsgStoring << p2 << " : " << msg1 << endl;
+        groupMsgStoring << person2 << " : " << msg1 << endl;
         if (msg2 == "exit")
             break;
 
@@ -433,7 +429,7 @@ void chatHistory(ChatApplication &chat)
     }
 }
 
-// MAIN SECTION 
+// MAIN SECTION
 
 int main()
 {
@@ -461,53 +457,66 @@ int main()
         cout << setw(84) << "Enter choice (1 <---> 8): ";
 
         int choice;
-        cin >> choice;
+        cin >> choice ;
 
-        if (choice == 1)
+        // string input;
+        // getline(cin, input);
+
+        // try
+        // {
+        //     choice =stoi(input); // convert string to int
+        // }
+        // catch (...)
+        // {
+        //     cout << "Invalid input. Enter a number.\n";
+        //     continue; // go back to the loop
+        // }
+
+        if (cin.fail())  // if mistakenly enter wrong input
         {
-
-            SignUp(chat);
+            cin.clear();  // clear the invalid input
+            cin.ignore(1000, '\n');  // ignore upto 1000 characters
+            cout << "Invalid input. Please enter number\n"; 
+            continue;
         }
-
-        else if (choice == 2)
+        switch (choice)
         {
+        case 1:
+            SignUp(chat);
+            break;
+
+        case 2:
 
             SignIn(chat);
-        }
-        else if (choice == 3)
-        {
+            break;
 
+        case 3:
             StartChatting(chat);
-        }
-        else if (choice == 4)
-        {
+            break;
+
+        case 4:
             GroupChatting(chat);
-        }
+            break;
 
-        else if (choice == 5)
-        {
+        case 5:
             chatHistory(chat);
-        }
+            break;
 
-        else if (choice == 6)
-        {
+        case 6:
             whoIam(chat);
-        }
-        else if (choice == 7)
-        {
-            logOut(chat);
-        }
+            break;
 
-        else if (choice == 8)
+        case 7:
+            logOut(chat);
+            break;
+
+        default:
+            cout << "Please enter a valid choice!" << endl;
+        }
+        if (choice == 8)
         {
             cout << "Good Bye!\nHave a nice day";
             break;
-        }
-
-        else
-        {
-
-            cout << "Please enter a valid choice!" << endl;
         }
     }
     return 0;
