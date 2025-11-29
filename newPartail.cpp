@@ -217,150 +217,165 @@ void StartChatting(ChatApplication &chat)
 
 void GroupChatting(ChatApplication &chat)
 {
-    ifstream signInUser("signup.txt");
+ifstream signInUser("signup.txt");
 
-    string person1; // person name
-    string pass1;   // person password
+string person1;  
+string pass1;  
 
-    cout << "Enter your Person 1: ";
-    cin >> person1;
+cout << "Enter your Person 1: ";  
+cin >> person1;  
 
-    bool P1Existed = false;
-    string pr1;
+bool P1Existed = false;  
+string pr1;  
 
-    while (signInUser >> pr1 >> pass1)
-    {
-        if (person1 == pr1)
-        {
-            P1Existed = true;
-            break;
-        }
-    }
+while (signInUser >> pr1 >> pass1)  
+{  
+    if (person1 == pr1)  
+    {  
+        P1Existed = true;  
+        break;  
+    }  
+}  
 
-    if (!P1Existed)
-    {
+if (!P1Existed)  
+{  
+    cout << "This is currently offline\n";  
+    return;
+}  
 
-        cout << "This is currently offline\n";
-    }
+// Reset file pointer to beginning for next user check  
+signInUser.clear();  
+signInUser.seekg(0, ios::beg);  
 
-    string person2, pass2;
+string person2, pass2;  
 
-    cout << "Enter your second Friend: ";
-    cin >> person2;
+cout << "Enter your second Friend: ";  
+cin >> person2;  
 
-    if (person2 == person1)
-    {
-        cout << "You cannot chat with yourself! Thank you\n";
-        return;
-    }
+if (person2 == person1)  
+{  
+    cout << "You cannot chat with yourself! Thank you\n";  
+    return;  
+}  
 
-    string pr2; // person 2
-    bool P2Existed = false;
-    while (signInUser >> pr2 >> pass2)
-    {
-        if (person2 == pr2)
-        {
-            P2Existed = true;
-            break;
-        }
-    }
+string pr2;  
+bool P2Existed = false;  
+while (signInUser >> pr2 >> pass2)  
+{  
+    if (person2 == pr2)  
+    {  
+        P2Existed = true;  
+        break;  
+    }  
+}  
 
-    if (!P2Existed)
-    {
-        cout << "This is currently offline\n";
-    }
+if (!P2Existed)  
+{  
+    cout << "This is currently offline\n";  
+    return;
+}  
 
-    string person3; // person name
-    string pass3;   // person password
+signInUser.clear();  
+signInUser.seekg(0, ios::beg);  
 
-    cout << "Enter your third person: ";
-    cin >> person3;
+string person3;  
+string pass3;  
 
-    bool P3Existed = false;
-    string pr3;
+cout << "Enter your third person: ";  
+cin >> person3;  
 
-    while (signInUser >> pr3 >> pass3)
-    {
-        if (person3 == pr3)
-        {
-            P3Existed = true;
-            break;
-        }
-    }
+if (person3 == person1 || person3 == person2)  
+{  
+    cout << "You cannot chat with yourself! Thank you\n";  
+    return;  
+}  
 
-    if (!P3Existed)
-    {
+bool P3Existed = false;  
+string pr3;  
 
-        cout << "This is currently offline\n";
-    }
+while (signInUser >> pr3 >> pass3)  
+{  
+    if (person3 == pr3)  
+    {  
+        P3Existed = true;  
+        break;  
+    }  
+}  
 
-    string p4;  // person 4 name
-    string ps4; // person password
+if (!P3Existed)  
+{  
+    cout << "This is currently offline\n";  
+    return ;
+}  
 
-    cout << "Enter your fourth Person: ";
-    cin >> p4;
+signInUser.clear();  
+signInUser.seekg(0, ios::beg);  
 
-    if (p4 == person3 || p4 == person2 || p4 == person1)
-    {
-        cout << "You cannot chatt with your self bro! Thank you\n";
-        return;
-    }
+string p4;  
+string ps4;  
 
-    bool P4Existed = false;
-    string pr4;
+cout << "Enter your fourth Person: ";  
+cin >> p4;  
 
-    while (signInUser >> pr4 >> ps4)
-    {
-        if (p4 == pr4)
-        {
-            P1Existed = true;
-            break;
-        }
-    }
+if (p4 == person1 || p4 == person2 || p4 == person3)  
+{  
+    cout << "You cannot chat with yourself! Thank you\n";  
+    return;  
+}  
 
-    if (!P4Existed)
-    {
+bool P4Existed = false;  
+string pr4;  
 
-        cout << "This is currently offline\n";
-    }
+while (signInUser >> pr4 >> ps4)  
+{  
+    if (p4 == pr4)  
+    {  
+        P4Existed = true;  // fixed from P1Existed  
+        break;  
+    }  
+}  
 
-    cout << "\n--- CHAT STARTED. TYPE exit TO END THE CHAT ---\n";
+if (!P4Existed)  
+{  
+    cout << "This is currently offline\n";
+    return;
+}  
 
-    ofstream groupMsgStoring("gmsg.txt", ios::app);
+cout << "\n--- CHAT STARTED. TYPE exit TO END THE CHAT ---\n";  
 
-    string msg1, msg2, msg3, msg4;
+ofstream groupMsgStoring("gmsg.txt", ios::app);  
 
-    cin.ignore();
+string msg1, msg2, msg3, msg4;  
 
-    while (signInUser)
-    {
-        cout << "[<<" << person1 << ">>]: ";
-        getline(cin, msg1);
-        groupMsgStoring << person1 << " : " << msg1 << endl;
-        if (msg1 == "exit")
-            break;
+cin.ignore();  
 
-        cout << "[<<" << person3 << ">>]: ";
-        getline(cin, msg3);
-        groupMsgStoring << person3 << " : " << msg2 << endl;
-        if (msg3 == "exit")
-            break;
+while (true)   
+{  
+    cout << "[<<" << person1 << ">>]: ";  
+    getline(cin, msg1);  
+    groupMsgStoring << person1 << " : " << msg1 << endl;  
+    if (msg1 == "exit") break;  
 
-        cout << "[<<" << person2 << ">>]: ";
-        getline(cin, msg2);
-        groupMsgStoring << person2 << " : " << msg1 << endl;
-        if (msg2 == "exit")
-            break;
+    cout << "[<<" << person3 << ">>]: ";  
+    getline(cin, msg3);  
+    groupMsgStoring << person3 << " : " << msg3 << endl;   
+    if (msg3 == "exit") break;  
 
-        cout << "[<<" << p4 << ">>]: ";
-        getline(cin, msg4);
-        groupMsgStoring << p4 << " : " << msg2 << endl;
-        if (msg4 == "exit")
-            break;
-    }
+    cout << "[<<" << person2 << ">>]: ";  
+    getline(cin, msg2);  
+    groupMsgStoring << person2 << " : " << msg2 << endl;  
+    if (msg2 == "exit") break;  
 
-    signInUser.close();
-    cout << "\n--- CHAT ENDED ---\n";
+    cout << "[<<" << p4 << ">>]: ";  
+    getline(cin, msg4);  
+    groupMsgStoring << p4 << " : " << msg4 << endl;   
+    if (msg4 == "exit") break;  
+}  
+
+signInUser.close();  
+cout << "\n--- CHAT ENDED ---\n";  
+
+
 }
 
 // Who am I SECTION
