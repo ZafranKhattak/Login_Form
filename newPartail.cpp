@@ -330,7 +330,7 @@ while (signInUser >> pr4 >> ps4)
 {  
     if (p4 == pr4)  
     {  
-        P4Existed = true;  // fixed from P1Existed  
+        P4Existed = true;     
         break;  
     }  
 }  
