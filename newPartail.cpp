@@ -110,23 +110,23 @@ void SignIn(ChatApplication &chat)
 
             while (true)
             {
-                cout <<"Enter your Pass: " ;
+                cout << "Enter your Pass: ";
                 cin >> yourpass;
                 if (yourpass == Pass)
                 {
-                    cout <<"Welcome Dear " << youname << endl;
+                    cout << "Welcome Dear " << youname << endl;
                     chat.currentUser = youname;
-                  
+
                     break;
                 }
                 else
                 {
-                    cout <<"Invalid Password!.Try Again.\n" ;
+                    cout << "Invalid Password!.Try Again.\n";
                 }
             }
         }
     }
-    
+
     if (!foundName)
     {
         cout << "User not found. SignUp please" << endl;
@@ -438,20 +438,57 @@ void chatHistory(ChatApplication &chat)
     ifstream msgStoring("msg.txt");
 
     string msg;
+    string person;
+    cout << "Enter name to check history: ";
+    cin >> person;
+
     bool found = false;
 
     while (getline(msgStoring, msg))
     {
+        if (msg.find(person) != string::npos)
+        {
+            cout << msg << endl;
+            found = true;
+        }
 
-        cout << msg << endl;
-        found = true;
+        if (!found)
+        {
+            cout << "No chat history found!" << endl;
+            return;
+        }
+    }
+}
+
+// GROUP CHAT HISTORY
+
+void groupChatHistory(ChatApplication &chat)
+{
+    ifstream groupMsgStoring("gmsg.txt");
+
+    string person;
+    cout << "Enter name to check history: ";
+    cin >> person;
+    
+    string grpMsg;
+    bool found = false;
+
+    while (getline(groupMsgStoring, grpMsg))
+    {
+        if (grpMsg.find(person) != string::npos)
+        {
+            cout << grpMsg << endl;
+            found = true;
+        }
     }
 
+    // Check AFTER reading whole file
     if (!found)
     {
         cout << "No chat history found!" << endl;
-        return;
     }
+
+    groupMsgStoring.close();
 }
 
 // MAIN SECTION
@@ -476,9 +513,10 @@ int main()
         cout << setw(76) << "3) Start Chatting\n\n";
         cout << setw(76) << "4) Group Chatting\n\n";
         cout << setw(74) << "5) Chat History\n\n";
-        cout << setw(71) << "6) Who am I?\n\n";
-        cout << setw(68) << "7) Logout\n\n";
-        cout << setw(66) << "8) Exit\n\n";
+        cout << setw(80) << "6) Group Chat History\n\n";
+        cout << setw(71) << "7) Who am I?\n\n";
+        cout << setw(68) << "8) Logout\n\n";
+        cout << setw(66) << "9) Exit\n\n";
         cout << setw(84) << "Enter choice (1 <---> 8): ";
 
         int choice;
@@ -528,17 +566,21 @@ int main()
             break;
 
         case 6:
-            whoIam(chat);
+            groupChatHistory(chat);
             break;
 
         case 7:
+            whoIam(chat);
+            break;
+
+        case 8:
             logOut(chat);
             break;
 
         default:
             cout << "Please enter a valid choice!" << endl;
         }
-        if (choice == 8)
+        if (choice == 9)
         {
             cout << "Good Bye!\nHave a nice day";
             break;
