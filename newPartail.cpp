@@ -21,29 +21,30 @@ void SignUp(ChatApplication &chat)
 {
 
     ofstream signUpUser("signup.txt", ios::app);
+
+    bool userExists = true;
     string user;
-    cout << "Enter username: ";
-    cin >> user;
 
-    // duplicate check if program is closed even
-
-    ifstream readFile("signup.txt");
-    string u, p;
-
-    while (readFile >> u >> p)
+    while (userExists)
     {
-        if (u == user)
+        cout << "Enter username: ";
+        cin >> user;
+
+        userExists = false;
+        ifstream readFile("signup.txt");
+        string u, p;
+        while (readFile >> u >> p)
         {
-            cout << "User Already Exists in the system! Choose another username.\n";
-            readFile.close();
-            cout << "Enter username: ";
-            cin >> user;
+            if (user == u)
+            {
+                cout << "User already exists! Choose another username.\n";
+                userExists = true;
+                break; 
+            }
         }
     }
-    readFile.close();
 
     cout << "Password Must contain at least 8 character\n";
-
     string pass;
     cout << "Enter password: ";
     cin >> pass;
@@ -217,165 +218,167 @@ void StartChatting(ChatApplication &chat)
 
 void GroupChatting(ChatApplication &chat)
 {
-ifstream signInUser("signup.txt");
+    ifstream signInUser("signup.txt");
 
-string person1;  
-string pass1;  
+    string person1;
+    string pass1;
 
-cout << "Enter your Person 1: ";  
-cin >> person1;  
+    cout << "Enter your Person 1: ";
+    cin >> person1;
 
-bool P1Existed = false;  
-string pr1;  
+    bool P1Existed = false;
+    string pr1;
 
-while (signInUser >> pr1 >> pass1)  
-{  
-    if (person1 == pr1)  
-    {  
-        P1Existed = true;  
-        break;  
-    }  
-}  
+    while (signInUser >> pr1 >> pass1)
+    {
+        if (person1 == pr1)
+        {
+            P1Existed = true;
+            break;
+        }
+    }
 
-if (!P1Existed)  
-{  
-    cout << "This is currently offline\n";  
-    return;
-}  
+    if (!P1Existed)
+    {
+        cout << "This is currently offline\n";
+        return;
+    }
 
-// Reset file pointer to beginning for next user check  
-signInUser.clear();  
-signInUser.seekg(0, ios::beg);  
+    // Reset file pointer to beginning for next user check
+    signInUser.clear();
+    signInUser.seekg(0, ios::beg);
 
-string person2, pass2;  
+    string person2, pass2;
 
-cout << "Enter your second Friend: ";  
-cin >> person2;  
+    cout << "Enter your second Friend: ";
+    cin >> person2;
 
-if (person2 == person1)  
-{  
-    cout << "You cannot chat with yourself! Thank you\n";  
-    return;  
-}  
+    if (person2 == person1)
+    {
+        cout << "You cannot chat with yourself! Thank you\n";
+        return;
+    }
 
-string pr2;  
-bool P2Existed = false;  
-while (signInUser >> pr2 >> pass2)  
-{  
-    if (person2 == pr2)  
-    {  
-        P2Existed = true;  
-        break;  
-    }  
-}  
+    string pr2;
+    bool P2Existed = false;
+    while (signInUser >> pr2 >> pass2)
+    {
+        if (person2 == pr2)
+        {
+            P2Existed = true;
+            break;
+        }
+    }
 
-if (!P2Existed)  
-{  
-    cout << "This is currently offline\n";  
-    return;
-}  
+    if (!P2Existed)
+    {
+        cout << "This is currently offline\n";
+        return;
+    }
 
-signInUser.clear();  
-signInUser.seekg(0, ios::beg);  
+    signInUser.clear();
+    signInUser.seekg(0, ios::beg);
 
-string person3;  
-string pass3;  
+    string person3;
+    string pass3;
 
-cout << "Enter your third person: ";  
-cin >> person3;  
+    cout << "Enter your third person: ";
+    cin >> person3;
 
-if (person3 == person1 || person3 == person2)  
-{  
-    cout << "You cannot chat with yourself! Thank you\n";  
-    return;  
-}  
+    if (person3 == person1 || person3 == person2)
+    {
+        cout << "You cannot chat with yourself! Thank you\n";
+        return;
+    }
 
-bool P3Existed = false;  
-string pr3;  
+    bool P3Existed = false;
+    string pr3;
 
-while (signInUser >> pr3 >> pass3)  
-{  
-    if (person3 == pr3)  
-    {  
-        P3Existed = true;  
-        break;  
-    }  
-}  
+    while (signInUser >> pr3 >> pass3)
+    {
+        if (person3 == pr3)
+        {
+            P3Existed = true;
+            break;
+        }
+    }
 
-if (!P3Existed)  
-{  
-    cout << "This is currently offline\n";  
-    return ;
-}  
+    if (!P3Existed)
+    {
+        cout << "This is currently offline\n";
+        return;
+    }
 
-signInUser.clear();  
-signInUser.seekg(0, ios::beg);  
+    signInUser.clear();
+    signInUser.seekg(0, ios::beg);
 
-string p4;  
-string ps4;  
+    string p4;
+    string ps4;
 
-cout << "Enter your fourth Person: ";  
-cin >> p4;  
+    cout << "Enter your fourth Person: ";
+    cin >> p4;
 
-if (p4 == person1 || p4 == person2 || p4 == person3)  
-{  
-    cout << "You cannot chat with yourself! Thank you\n";  
-    return;  
-}  
+    if (p4 == person1 || p4 == person2 || p4 == person3)
+    {
+        cout << "You cannot chat with yourself! Thank you\n";
+        return;
+    }
 
-bool P4Existed = false;  
-string pr4;  
+    bool P4Existed = false;
+    string pr4;
 
-while (signInUser >> pr4 >> ps4)  
-{  
-    if (p4 == pr4)  
-    {  
-        P4Existed = true;     
-        break;  
-    }  
-}  
+    while (signInUser >> pr4 >> ps4)
+    {
+        if (p4 == pr4)
+        {
+            P4Existed = true;
+            break;
+        }
+    }
 
-if (!P4Existed)  
-{  
-    cout << "This is currently offline\n";
-    return;
-}  
+    if (!P4Existed)
+    {
+        cout << "This is currently offline\n";
+        return;
+    }
 
-cout << "\n--- CHAT STARTED. TYPE exit TO END THE CHAT ---\n";  
+    cout << "\n--- CHAT STARTED. TYPE exit TO END THE CHAT ---\n";
 
-ofstream groupMsgStoring("gmsg.txt", ios::app);  
+    ofstream groupMsgStoring("gmsg.txt", ios::app);
 
-string msg1, msg2, msg3, msg4;  
+    string msg1, msg2, msg3, msg4;
 
-cin.ignore();  
+    cin.ignore();
 
-while (true)   
-{  
-    cout << "[<<" << person1 << ">>]: ";  
-    getline(cin, msg1);  
-    groupMsgStoring << person1 << " : " << msg1 << endl;  
-    if (msg1 == "exit") break;  
+    while (true)
+    {
+        cout << "[<<" << person1 << ">>]: ";
+        getline(cin, msg1);
+        groupMsgStoring << person1 << " : " << msg1 << endl;
+        if (msg1 == "exit")
+            break;
 
-    cout << "[<<" << person3 << ">>]: ";  
-    getline(cin, msg3);  
-    groupMsgStoring << person3 << " : " << msg3 << endl;   
-    if (msg3 == "exit") break;  
+        cout << "[<<" << person3 << ">>]: ";
+        getline(cin, msg3);
+        groupMsgStoring << person3 << " : " << msg3 << endl;
+        if (msg3 == "exit")
+            break;
 
-    cout << "[<<" << person2 << ">>]: ";  
-    getline(cin, msg2);  
-    groupMsgStoring << person2 << " : " << msg2 << endl;  
-    if (msg2 == "exit") break;  
+        cout << "[<<" << person2 << ">>]: ";
+        getline(cin, msg2);
+        groupMsgStoring << person2 << " : " << msg2 << endl;
+        if (msg2 == "exit")
+            break;
 
-    cout << "[<<" << p4 << ">>]: ";  
-    getline(cin, msg4);  
-    groupMsgStoring << p4 << " : " << msg4 << endl;   
-    if (msg4 == "exit") break;  
-}  
+        cout << "[<<" << p4 << ">>]: ";
+        getline(cin, msg4);
+        groupMsgStoring << p4 << " : " << msg4 << endl;
+        if (msg4 == "exit")
+            break;
+    }
 
-signInUser.close();  
-cout << "\n--- CHAT ENDED ---\n";  
-
-
+    signInUser.close();
+    cout << "\n--- CHAT ENDED ---\n";
 }
 
 // Who am I SECTION
@@ -472,7 +475,7 @@ int main()
         cout << setw(84) << "Enter choice (1 <---> 8): ";
 
         int choice;
-        cin >> choice ;
+        cin >> choice;
 
         // string input;
         // getline(cin, input);
@@ -487,11 +490,11 @@ int main()
         //     continue; // go back to the loop
         // }
 
-        if (cin.fail())  // if mistakenly enter wrong input
+        if (cin.fail()) // if mistakenly enter wrong input
         {
-            cin.clear();  // clear the invalid input
-            cin.ignore(1000, '\n');  // ignore upto 1000 characters
-            cout << "Invalid input. Please enter number\n"; 
+            cin.clear();            // clear the invalid input
+            cin.ignore(1000, '\n'); // ignore upto 1000 characters
+            cout << "Invalid input. Please enter number\n";
             continue;
         }
         switch (choice)
