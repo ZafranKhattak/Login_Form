@@ -39,7 +39,7 @@ void SignUp(ChatApplication &chat)
             {
                 cout << "User already exists! Choose another username.\n";
                 userExists = true;
-                break; 
+                break;
             }
         }
     }
@@ -95,31 +95,38 @@ void SignIn(ChatApplication &chat)
     cin >> youname;
 
     string yourpass;
-    cout << "Enter your pass: ";
-    cin >> yourpass;
 
     bool foundName = false;
+
     string User;
     string Pass;
 
     while (signInUser >> User >> Pass)
     {
+
         if (youname == User)
         {
             foundName = true;
-            if (yourpass == Pass)
+
+            while (true)
             {
-                cout << "SignIn successfully! Welcome Dear " << youname << endl;
-                chat.currentUser = youname;
+                cout <<"Enter your Pass: " ;
+                cin >> yourpass;
+                if (yourpass == Pass)
+                {
+                    cout <<"Welcome Dear " << youname << endl;
+                    chat.currentUser = youname;
+                  
+                    break;
+                }
+                else
+                {
+                    cout <<"Invalid Password!.Try Again.\n" ;
+                }
             }
-            else
-            {
-                cout << "Invalid password! Try again" << endl;
-            }
-            break;
         }
     }
-
+    
     if (!foundName)
     {
         cout << "User not found. SignUp please" << endl;
